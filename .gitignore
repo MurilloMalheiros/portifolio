@@ -1,0 +1,21 @@
+# Configuração local e credenciais
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Dependências, arquivos temporários e saídas locais
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.tmp
+.preview/
+test-results/
+playwright-report/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
