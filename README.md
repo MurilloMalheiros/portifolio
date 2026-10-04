@@ -24,6 +24,7 @@ Acesse <http://localhost:8000>.
 index.html   Conteúdo e estrutura da página
 style.css    Layout responsivo e temas claro e escuro
 script.js    Navegação, troca de tema e filtros dos projetos
+translations.js  Tradução PT/EN e preferência de idioma
 assets/      Foto, currículo, marca e ícones
 ```
 
@@ -31,6 +32,7 @@ assets/      Foto, currículo, marca e ícones
 
 - Layout responsivo para computador e celular.
 - Temas claro e escuro com preferência salva no navegador.
+- Alternância entre português e inglês com preferência salva no navegador.
 - Navegação por seções e filtros de projetos.
 - Currículo disponível para download.
 - Seção dedicada à robótica e às conquistas em competições.

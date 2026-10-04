@@ -6,6 +6,7 @@ const navLinks = document.getElementById('nav-links');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 const mobileViewport = window.matchMedia('(max-width: 900px)');
 const themeMeta = document.querySelector('meta[name="theme-color"]');
+const t = (text) => window.portfolioI18n?.t(text) ?? text;
 let chosenTheme;
 
 function refreshIcons() {
@@ -15,7 +16,7 @@ function setTheme(theme) {
     const isDark = theme === 'dark';
     root.classList.toggle('dark', isDark);
     themeMeta.setAttribute('content', isDark ? '#111827' : '#f7f8fa');
-    themeButton.setAttribute('aria-label', isDark ? 'Ativar tema claro' : 'Ativar tema escuro');
+    themeButton.setAttribute('aria-label', t(isDark ? 'Ativar tema claro' : 'Ativar tema escuro'));
     themeButton.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}" aria-hidden="true"></i>`;
     refreshIcons();
 }
@@ -36,7 +37,7 @@ function setMenu(open, restoreFocus = false) {
     navLinks.classList.toggle('open', open);
     document.body.classList.toggle('menu-open', open);
     menuButton.setAttribute('aria-expanded', String(open));
-    menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    menuButton.setAttribute('aria-label', t(open ? 'Fechar menu' : 'Abrir menu'));
     menuButton.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" aria-hidden="true"></i>`;
     refreshIcons();
     if (restoreFocus) menuButton.focus();
@@ -122,10 +123,20 @@ filters.addEventListener('click', (event) => {
         button.setAttribute('aria-pressed', String(active));
     });
     projects.forEach((project) => { project.hidden = category !== 'all' && project.dataset.category !== category; });
-    const count = projects.filter((project) => !project.hidden).length;
-    projectStatus.textContent = `${count} ${count === 1 ? 'projeto exibido' : 'projetos exibidos'}.`;
+    updateProjectStatus();
     scheduleNavigation();
 });
+function updateProjectStatus() {
+    const count = projects.filter((project) => !project.hidden).length;
+    projectStatus.textContent = `${count} ${t(count === 1 ? 'projeto exibido' : 'projetos exibidos')}.`;
+}
+document.addEventListener('languagechange', () => {
+    themeButton.setAttribute('aria-label', t(root.classList.contains('dark') ? 'Ativar tema claro' : 'Ativar tema escuro'));
+    menuButton.setAttribute('aria-label', t(navLinks.classList.contains('open') ? 'Fechar menu' : 'Abrir menu'));
+    if (projectStatus.textContent) updateProjectStatus();
+    scheduleNavigation();
+});
+menuButton.setAttribute('aria-label', t('Abrir menu'));
 if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
